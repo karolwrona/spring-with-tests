@@ -1,11 +1,12 @@
 package pl.edu.wszib.springwithtests.dto;
 
 import javax.persistence.Transient;
+import java.util.List;
 
 public class ShoppingBasketDTO {
 
     private Integer id;
-    private ShoppingBasketItemDTO items;
+    private List<ShoppingBasketItemDTO> items;
     private double grossValue;
     private double netValue;
 
@@ -17,11 +18,11 @@ public class ShoppingBasketDTO {
         this.id = id;
     }
 
-    public ShoppingBasketItemDTO getItems() {
+    public List<ShoppingBasketItemDTO> getItems() {
         return items;
     }
 
-    public void setItems(ShoppingBasketItemDTO items) {
+    public void setItems(List<ShoppingBasketItemDTO> items) {
         this.items = items;
     }
 

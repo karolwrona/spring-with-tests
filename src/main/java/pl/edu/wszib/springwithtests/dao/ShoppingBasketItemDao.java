@@ -11,4 +11,8 @@ public interface ShoppingBasketItemDao extends CrudRepository<ShoppingBasketItem
 
     List<ShoppingBasketItem> findAll();
 
+    ShoppingBasketItem findByProductIdAAndShoppingBasketId (Integer productId, Integer shoppingBasketID);
+
+    List<ShoppingBasketItem> findAllByShoppingBasketId(Integer id);
+
 }
