@@ -77,7 +77,7 @@ public class ShoppingBasketServiceImpl implements ShoppingBasketService {
         if(!productDao.existsById(product.getId())) {
             throw new NotFoundException();
         }
-        ShoppingBasketItem item = shoppingBasketItemDao.findByProductIdAAndShoppingBasketId(product.getId(), basket.getId());
+        ShoppingBasketItem item = shoppingBasketItemDao.findByProductIdAndShoppingBasketId(product.getId(), basket.getId());
         if(item != null) {
             item.setAmount(item.getAmount()+1);
         } else {

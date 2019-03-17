@@ -92,7 +92,7 @@ public class ShoppingBasketServiceImplTest {
         item.setProduct(mapper.map(productDTO, Product.class));
 
 
-        Mockito.when(shoppingBasketItemDao.findByProductIdAAndShoppingBasketId(productDTO.getId(), testShoppingBasketID)).thenReturn(item);
+        Mockito.when(shoppingBasketItemDao.findByProductIdAndShoppingBasketId(productDTO.getId(), testShoppingBasketID)).thenReturn(item);
 
         Mockito.when(shoppingBasketItemDao.findAllByShoppingBasketId(testShoppingBasketID)).thenReturn(Collections.singletonList(item));
 
