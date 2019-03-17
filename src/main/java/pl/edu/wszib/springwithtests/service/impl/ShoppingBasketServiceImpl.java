@@ -91,8 +91,8 @@ public class ShoppingBasketServiceImpl implements ShoppingBasketService {
         basket.setGrossValue(countGross(basket));
 
         ShoppingBasketDTO basketDTO = mapper.map(basket, ShoppingBasketDTO.class);
-
-        return null;
+        basketDTO.setItems(getItem(basket));
+        return basketDTO;
     }
     private double countNet(ShoppingBasket basket) {
         List<ShoppingBasketItem> items = shoppingBasketItemDao.findAllByShoppingBasketId(basket.getId());

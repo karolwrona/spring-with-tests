@@ -72,7 +72,7 @@ public class ShoppingBasketServiceImplTest {
     }
 
     @Test
-    public void testShoppingBasketExistProductExistShoppiungBasketItemNotExist() {
+    public void testShoppingBasketExistProductExistShoppingBasketItemNotExist() {
         int testShoppingBasketID = 457;
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(58);
@@ -106,4 +106,36 @@ public class ShoppingBasketServiceImplTest {
         Assert.assertTrue(result.getItems().stream().filter(i->i.getProduct().getId().equals(productDTO.getId())).findFirst()
                 .map(i->i.getAmount()==16).orElse(false));
     }
+    @Test
+    public void testShoppingBasketExistProductExistShoppingBasketItemExist() {
+        int testShoppingBasketID = 457;
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setId(58);
+        productDTO.setName("TEST!!!!!!!!!!!");
+        productDTO.setCost(25d);
+        productDTO.setVat(Vat.VALUE_23);
+
+        ShoppingBasket shoppingBasket = new ShoppingBasket();
+        shoppingBasket.setId(testShoppingBasketID);
+        Mockito.when(shoppingBasketDao.findById(testShoppingBasketID)).thenReturn(Optional.of(shoppingBasket));
+        Mockito.when((productDao.existsById(productDTO.getId()))).thenReturn(true);
+
+        ShoppingBasketItem item = new ShoppingBasketItem();
+        item.setId(545);
+        item.setShoppingBasket(shoppingBasket);
+        item.setAmount(1);
+        item.setProduct(mapper.map(productDTO, Product.class));
+
+
+        Mockito.when(shoppingBasketItemDao.findAllByShoppingBasketId(testShoppingBasketID)).thenReturn(Collections.singletonList(item));
+
+        ShoppingBasketDTO result = basketService.addProduct(productDTO, testShoppingBasketID);
+
+        Assert.assertEquals(testShoppingBasketID, result.getId().intValue());
+        Assert.assertEquals(1, result.getItems().size());
+        Assert.assertTrue(result.getItems().stream().anyMatch(i->i.getProduct().getId().equals(productDTO.getId())));
+        Assert.assertTrue(result.getItems().stream().filter(i->i.getProduct().getId().equals(productDTO.getId())).findFirst()
+                .map(i->i.getAmount()==1).orElse(false));
+    }
+
 }
