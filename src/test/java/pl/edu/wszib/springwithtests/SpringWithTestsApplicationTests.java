@@ -102,5 +102,26 @@ public class SpringWithTestsApplicationTests {
 		Assert.assertTrue(result.getItems().stream().filter(i->i.getProduct().getId().equals(copyProduct.getId())).findFirst()
 				.map(i->i.getAmount()==copyShoppingBasketItem.getAmount()+1).orElse(false));
 	}
+	@Test
+	public void testShoppingBasketIdExistProductExistShoppingBasketItemNotExist() {
+		ShoppingBasket shoppingBasket = new ShoppingBasket();
+		shoppingBasket = shoppingBasketDao.save(shoppingBasket);
 
+		Product product = new Product();
+		product.setCost(14d);
+		product.setName("Produkt!");
+		product.setVat(Vat.VALUE_23);
+		product = productDao.save(product);
+
+		ShoppingBasketDTO result = service.addProduct(mapper.map(product, ProductDTO.class), shoppingBasket.getId());
+
+		final Product copyProduct = product;
+
+		Assert.assertEquals(shoppingBasket.getId(), result.getId());
+		Assert.assertEquals(1, result.getItems().size());
+		Assert.assertTrue(result.getItems().stream().anyMatch(i -> i.getProduct().getId().equals(copyProduct.getId())));
+		Assert.assertTrue(result.getItems().stream().filter(i -> i.getProduct().getId().equals(copyProduct.getId())).findFirst()
+				.map(i -> i.getAmount() == 1).orElse(false));
+		Assert.assertNotNull(shoppingBasketItemDao.findByProductIdAndShoppingBasketId(product.getId(), shoppingBasket.getId()));
+	}
 }
