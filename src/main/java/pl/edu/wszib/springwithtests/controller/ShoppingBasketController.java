@@ -2,6 +2,7 @@ package pl.edu.wszib.springwithtests.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.wszib.springwithtests.dto.ProductDTO;
 import pl.edu.wszib.springwithtests.dto.ShoppingBasketDTO;
 import pl.edu.wszib.springwithtests.dto.ShoppingBasketDTO;
 import pl.edu.wszib.springwithtests.model.ShoppingBasket;
@@ -40,6 +41,11 @@ public class ShoppingBasketController {
     @DeleteMapping("/{id}")
     public void remove(@PathVariable int id) {
         service.remove(id);
+    }
+
+    @PostMapping("/add")
+    public ShoppingBasketDTO addProduct(@RequestBody ProductDTO productDTO, @RequestParam int shoppingBasketId) {
+        return service.addProduct(productDTO, shoppingBasketId);
     }
 
 }
